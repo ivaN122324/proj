@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Web Page with Animation</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Header */
+        header {
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://via.placeholder.com/1500x500') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            opacity: 0;
+            animation: fadeInHero 1.5s forwards;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: slideInFromLeft 1s ease-out forwards;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            animation: slideInFromRight 1s ease-out forwards;
+        }
+
+        .hero button {
+            padding: 10px 20px;
+            background-color: #ff4500;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero button:hover {
+            background-color: #e63946;
+        }
+
+        /* Features Section */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 0;
+            background-color: #fff;
+            opacity: 0;
+            animation: fadeInFeatures 1.5s 0.5s forwards;
+        }
+
+        .feature {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        .feature h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 1em;
+        }
+
+        .feature:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .feature:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .feature:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* Wix-like Feature 1 (Updated) */
+        .feature1 {
+            background-color: #0070f3;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        .feature1 h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .feature1 p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .feature1 button {
+            padding: 15px 30px;
+            background-color: #ff4500;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .feature1 button:hover {
+            background-color: #e63946;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInHero {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInFeatures {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromRight {
+            0% {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to My Website</h1>
+            <p>Discover great content and amazing experiences on your personal life.</p>
+            <button>Learn More</button>
+        </div>
+    </section>
+
+    <section class="features">
+
+        <div class="feature feature1">
+            <h2>build a combining element for your future self and your family.</h2>
+            <p>Get started with professional skills and make it perfect with your mind heart and your courage.</p>
+            <button>Get Started</button>
+        </div>
+        <div class="feature2">
+            <h2>to your self.</h2>
+            <p>A simple strategy for your life thanks.</p>
+            <button>Get started </button>
+        </div>
+        <div class="feature">
+            <h2>A simple life make it a boom and your pass erase it to your mind and make a new Beautiful and wonderful lifes.</h2>
+            <p>Here a sample to make it </p>
+            <button>Get started </button>
+        </div>
+    </section>
+
+    <footer>
+        <p>ABOUT US:</p>
+        <p>This is a make over for yourself thankyou to besitting my web have a good day.</p>
+    </footer>
+</body>
+</html>

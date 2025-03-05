@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #calendarSection {
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+        }
+
+        #calendarSection.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <div class="max-w-4xl mx-auto p-6 space-y-6">
+
+        <!-- Form with validation -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Form Validation</h2>
+            <input type="text" id="inputField" placeholder="Enter First Name" class="p-2 border border-gray-300 rounded-md w-full mb-2" />
+            <input type="email" id="emailField" placeholder="Enter Email" class="p-2 border border-gray-300 rounded-md w-full mb-2" />
+            <input type="number" id="gradeField" placeholder="Enter Grade" class="p-2 border border-gray-300 rounded-md w-full mb-2" />
+            <button onclick="validate()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 w-full">Submit</button>
+            <div id="message" class="mt-4 text-red-500"></div>
+        </div>
+
+        <!-- Grade Management -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Grade Management</h2>
+            <button onclick="addGradeToTable('kleirk', 85)" class="bg-green-600 text-white p-2 rounded-md hover:bg-green-700 mb-2">Name</button>
+            <button onclick="addGradeToTable('kleik javier', 92)" class="bg-green-600 text-white p-2 rounded-md hover:bg-green-700 mb-2">Grades</button>
+            <table class="min-w-full border-collapse mt-4">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b border-gray-300">Student Name</th>
+                        <th class="py-2 px-4 border-b border-gray-300">Grade</th>
+                        <th class="py-2 px-4 border-b border-gray-300">personal</th>
+                    </tr>
+                </thead>
+                <tbody id="gradesTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Calendar -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Calendar</h2>
+            <div class="mb-4">
+                <label for="month" class="mr-2">Select Month:</label>
+                <select id="month" onchange="showCalendar()" class="p-2 border border-gray-300 rounded-md">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <!-- More months -->
+                </select>
+
+                <label for="year" class="ml-4 mr-2">Select Year:</label>
+                <select id="year" onchange="showCalendar()" class="p-2 border border-gray-300 rounded-md">
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <!-- More years -->
+                </select>
+            </div>
+
+            <div id="calendarSection" class="mt-4 hidden">
+                <h3 id="calendarTitle" class="text-lg font-semibold"></h3>
+                <div id="calendarContainer" class="grid grid-cols-7 gap-4 mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Cookies & Local Storage Management -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Cookies & Local Storage</h2>
+            <button onclick="deleteCookie()" class="bg-red-600 text-white p-2 rounded-md hover:bg-red-700 mb-2">Delete Cookie</button>
+            <button onclick="deleteLocalStorage()" class="bg-red-600 text-white p-2 rounded-md hover:bg-red-700">Clear Local Storage</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Form Validation
+        function validate() {
+            const textboxValue = document.getElementById("inputField").value;
+            const emailValue = document.getElementById("emailField").value;
+            const gradeValue = document.getElementById("gradeField").value;
+            let error = '';
+
+            // Validate First Name
+            if (textboxValue === "") {
+                error += "<span style='color:red'>First Name is required</span><br>";
+            }
+
+            // Validate Email
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailRegex.test(emailValue)) {
+                error += "<span style='color:red'>Enter a valid email</span><br>";
+            }
+
+            // Validate Grade
+            if (gradeValue === "" || isNaN(gradeValue) || gradeValue < 0 || gradeValue > 100) {
+                error += "<span style='color:red'>Grade must be a number between 0 and 100</span><br>";
+            }
+
+            // Display error message or success
+            if (error) {
+                document.getElementById("message").innerHTML = error;
+            } else {
+                document.getElementById("message").innerHTML = "All fields are valid!";
+            }
+        }
+
+        // Add Grade to Table
+        function addGradeToTable(studentName, studentGrade) {
+            const tableBody = document.getElementById('gradesTableBody');
+            const newRow = document.createElement('tr');
+            
+            const nameCell = document.createElement('td');
+            nameCell.className = 'py-2 px-4 border-b border-gray-200';
+            nameCell.textContent = studentName;
+
+            const gradeCell = document.createElement('td');
+            gradeCell.className = 'py-2 px-4 border-b border-gray-200';
+            gradeCell.textContent = studentGrade;
+
+            // Add edit and delete buttons
+            const actionsCell = document.createElement('td');
+            actionsCell.className = 'py-2 px-4 border-b border-gray-200';
+
+            const editButton = document.createElement('button');
+            editButton.className = 'bg-yellow-500 text-white p-1 rounded-md mr-2';
+            editButton.textContent = 'Edit';
+            editButton.onclick = function() {
+                const newGrade = prompt(`Edit grade for ${studentName}`, studentGrade);
+                if (newGrade) {
+                    gradeCell.textContent = newGrade;
+                }
+            };
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'bg-red-500 text-white p-1 rounded-md';
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                tableBody.removeChild(newRow);
+            };
+
+            actionsCell.appendChild(editButton);
+            actionsCell.appendChild(deleteButton);
+
+            newRow.appendChild(nameCell);
+            newRow.appendChild(gradeCell);
+            newRow.appendChild(actionsCell);
+
+            tableBody.appendChild(newRow);
+        }
+
+        // Show Calendar
+        function showCalendar() {
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+            const calendarSection = document.getElementById('calendarSection');
+            const calendarTitle = document.getElementById('calendarTitle');
+            const calendarContainer = document.getElementById('calendarContainer');
+
+            calendarSection.classList.remove('hidden');
+            calendarTitle.textContent = `Calendar for ${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+            // Clear previous calendar
+            while (calendarContainer.children.length > 7) {
+                calendarContainer.removeChild(calendarContainer.lastChild);
+            }
+
+            // Generate calendar for the selected month and year
+            const daysInMonth = new Date(year, parseInt(month) + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarContainer.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'p-2 border cursor-pointer hover:bg-blue-200';
+                dayCell.textContent = day;
+                dayCell.onclick = () => {
+                    const event = prompt(`Add event for ${day}/${parseInt(month)+1}/${year}:`);
+                    if (event) {
+                        dayCell.classList.add('bg-yellow-200');
+                        dayCell.setAttribute('title', event); // Display event on hover
+                    }
+                };
+                calendarContainer.appendChild(dayCell);
+            }
+        }
+
+        // Delete Cookie
+        function deleteCookie() {
+            document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            alert("Cookie has been deleted");
+        }
+
+        // Clear Local Storage
+        function deleteLocalStorage() {
+            localStorage.removeItem("example");
+            document.getElementById("stored").innerHTML = "";
+            alert("Local storage has been cleared");
+        }
+    </script>
+
+</body>
+</html>

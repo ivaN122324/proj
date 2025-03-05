@@ -1,0 +1,286 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/03/Sunset-wallpaper-desktop.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Hide content by default */
+        .hidden-content {
+            display: none;
+        }
+    </style>
+    <script>
+        // JavaScript Functions
+        function myFunction() {
+            alert("Sorry, your name is not recorded");
+        }
+
+        function secondFunction() {
+            alert("You are not enrolled for this course. Please register your personal information in the system. Thanks.");
+        }
+
+        function validate() {
+            var textboxValue = document.getElementById("inputField").value;
+            if (textboxValue === "") {
+                var error = "<span style='color:red'>Required</span>";
+                document.getElementById("message").innerHTML = error;
+            } else {
+                document.getElementById("message").innerHTML = "First Name: " + textboxValue;
+            }
+        }
+
+        function stringOperations() {
+            let str = "HELLO";
+            console.log(str.concat(" there"));
+            let modifiedString = str.toUpperCase().replace("THERE", "you").concat(" You're amazing!");
+            console.log(modifiedString);
+        }
+
+        function arrayOperations() {
+            let arr = ["grapefruit", 4, "hello", 5.6, true];
+            arr.forEach(function(element, index) {
+                console.log("Element at array position:", index, "=>", element);
+            });
+
+            let filterArr = arr.filter(function(element) {
+                return typeof element === "string";
+            });
+            console.log("Filtered Strings:", filterArr);
+
+            let mappedArr = arr.map(function(x) {
+                return x + 1;
+            });
+            console.log("Mapped Array:", mappedArr);
+        }
+
+        // Login and Logout Functions
+        function login() {
+            var username = document.getElementById("loginUsername").value;
+            var password = document.getElementById("loginPassword").value;
+
+            if (username && password) {
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                alert("Please fill in both username and password.");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('loggedIn') === 'true') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        };
+
+        // Grading System
+        document.getElementById('gradeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const studentName = document.getElementById('studentName').value;
+            const studentGrade = document.getElementById('studentGrade').value;
+
+            if (studentName && studentGrade) {
+                const tableBody = document.getElementById('gradesTableBody');
+                const newRow = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.className = 'py-2 px-4 border-b border-gray-200';
+                nameCell.textContent = studentName;
+
+                const gradeCell = document.createElement('td');
+                gradeCell.className = 'py-2 px-4 border-b border-gray-200';
+                gradeCell.textContent = studentGrade;
+
+                newRow.appendChild(nameCell);
+                newRow.appendChild(gradeCell);
+
+                tableBody.appendChild(newRow);
+
+                document.getElementById('gradeForm').reset();
+            }
+        });
+
+        // Calendar Section
+        function showCalendar() {
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+            const calendarSection = document.getElementById('calendarSection');
+            const calendarTitle = document.getElementById('calendarTitle');
+            const calendarContainer = document.getElementById('calendarContainer');
+
+            calendarSection.classList.remove('hidden');
+            calendarTitle.textContent = `Calendar for ${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+            // Clear previous calendar
+            while (calendarContainer.children.length > 7) {
+                calendarContainer.removeChild(calendarContainer.lastChild);
+            }
+
+            // Generate calendar for the selected month and year
+            const daysInMonth = new Date(year, parseInt(month) + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarContainer.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'p-2 border';
+                dayCell.textContent = day;
+                calendarContainer.appendChild(dayCell);
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 p-5">
+    <!-- Login Section -->
+    <div id="loginSection" class="w-full max-w-md mx-auto bg-white p-5 rounded shadow-md">
+        <h2 class="text-2xl font-bold text-center mb-5">Login</h2>
+        <div class="mb-5">
+            <label for="loginUsername" class="block text-md font-larges text-gray-700"></label>
+            <input type="text" id="loginUsername" class="p-2 border border-gray-300 rounded-md w-full mb-3" placeholder="Username">
+        </div>
+        <div class="mb-5">
+            <label for="loginPassword" class="block text-sm font-medium text-gray-700"></label>
+            <input type="password" id="loginPassword" class="p-2 border border-gray-300 rounded-md w-full mb-3" placeholder="Password">
+        </div>
+        <button onclick="login()" class="bg-blue-600 text-white p-2 rounded-md w-full hover:bg-blue-700">Login</button>
+    </div>
+
+    <button onclick="logout()" class="bg-black text-white p-2 rounded-md hover:bg-gray-700 mt-3">Logout</button>
+    
+    <!-- Main Content Section (after login) -->
+    <div id="mainContent" class="hidden">
+        <!-- Welcome Message -->
+        <h1 class="text-3xl font-bold text-center text-white-600 mb-5">Welcome to Sky Academy</h1>
+        <p class="text-2xl text-center mb-5">This page is the personal information of the student.</p>
+
+        <!-- Buttons triggering JavaScript functions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+            <button onclick="myFunction()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Home</button>
+            <button onclick="secondFunction()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">About</button>
+            <button onclick="stringOperations()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Contact Information</button>
+            <button onclick="arrayOperations()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Calendar</button>
+        </div>
+
+        <!-- Form and Validation -->
+        <div class="mb-5">
+            <p id="message" class="mb-2"></p>
+            <input type="text" id="inputField" placeholder="Enter Name" class="p-2 border border-gray-300 rounded-md w-full mb-2" />
+            <button onclick="validate()" class="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 w-full">Submit</button>
+        </div>
+
+        <!-- Grading System -->
+        <header class="bg-blue-600 text-white p-4 mt-10">
+            <div class="container mx-auto">
+                <h1 class="text-2xl font-bold">Grading System</h1>
+            </div>
+        </header>
+
+        <main class="container mx-auto mt-8 p-4 bg-white shadow-md rounded">
+            <section class="mb-8">
+                <h2 class="text-xl font-bold mb-4">Add Student Grade</h2>
+                <form id="gradeForm" class="space-y-4">
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700">Student Name</label>
+                        <input type="text" id="studentName" name="studentName" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="studentGrade" class="block text-sm font-medium text-gray-700">Grade</label>
+                        <input type="text" id="studentGrade" name="studentGrade" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Add Grade</button>
+                </form>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold mb-4">Grades List</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Student Name</th>
+                            <th class="py-2 px-4 border-b">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradesTableBody">
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <!-- Calendar Section -->
+        <header class="bg-blue-600 text-white p-4 mb-5 mt-10">
+            <div class="container mx-auto">
+                <h1 class="text-2xl font-bold">Calendar</h1>
+            </div>
+        </header>
+
+        <main class="container mx-auto bg-white shadow-md rounded p-5">
+            <section class="mb-8">
+                <h2 class="text-xl font-bold mb-4">Select Month and Year</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="month" class="block text-sm font-medium text-gray-700">Month</label>
+                        <select id="month" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+                        <input type="number" id="year" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="2023">
+                    </div>
+                </div>
+                <button onclick="showCalendar()" class="mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 w-full">Show Calendar</button>
+            </section>
+
+            <section id="calendarSection" class="hidden">
+                <h2 id="calendarTitle" class="text-xl font-bold mb-4"></h2>
+                <div id="calendarContainer" class="grid grid-cols-7 gap-4 text-center">
+                    <div class="font-bold">Sun</div>
+                    <div class="font-bold">Mon</div>
+                    <div class="font-bold">Tue</div>
+                    <div class="font-bold">Wed</div>
+                    <div class="font-bold">Thu</div>
+                    <div class="font-bold">Fri</div>
+                    <div class="font-bold">Sat</div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
